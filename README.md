@@ -49,3 +49,38 @@ python main.py
 - train.py - run this file to run the code in wandb without attention
 - train_attention.py - run this file to run the code in wandb without attention
 - trainModel.py - contains the code to train the model and computes loss and accuracy
+
+## Results
+
+### With Attention
+
+####  Validation Accuracy - 35.132
+
+| Hyperparamter | Values/Usage |
+| --- | --- |
+| epoch | 10 |
+| hidden_size | 512 |
+| cell_type | LSTM |
+| learning_rate | 1e-3 |
+| num_layers | 3 |
+| drop_out | 0 |
+| embedding_size | 256 |
+| batch_size | 128 |
+| bidirectional | True |
+
+### Without Attention
+
+####  Validation Accuracy - 35.474
+
+| Hyperparamter | Values/Usage |
+| --- | --- |
+| epoch | 10 |
+| hidden_size | 512 |
+| cell_type | LSTM |
+| learning_rate | 1e-3 |
+| num_layers | 3 |
+| drop_out | 0.3 |
+| embedding_size | 256 |
+| batch_size | 64 |
+| bidirectional | False |
+
