@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from dataPreprocessing import DataProcessing
 from model import Encoder
 from model import Decoder
-from model import AttnDecoder,DecoderAttention
+from model import DecoderAttention
 from trainModel import trainIters
 from torch.utils.data import DataLoader
 import time
@@ -15,7 +15,7 @@ import time
 Run this file if you want to run the code without WANDB
 '''
 
-def trainForConfigs(config):
+def trainForConfigs(config,add_wandb):
     # Load and pre-process data
     device = config["device"]
     data = DataProcessing(DATAPATH = 'aksharantar_sampled', source_lang = config["source_lang"], target_lang = config["target_lang"],device = device,config = config)
@@ -24,7 +24,7 @@ def trainForConfigs(config):
     batch_size = config["batch_size"]
     
     # Create encoder with input size = number of characters in source langauge and specified embedding size
-    encoder = Encoder(data.num_decoder_tokens,config).to(device)
+    encoder = Encoder(data.num_encoder_tokens,config).to(device)
     
     # Create encoder with output size = number of characters in target langauge and specified embedding size
     if config["attention"]:
@@ -36,7 +36,7 @@ def trainForConfigs(config):
     trainLoader,total_batches = getTrainLoader(data,batch_size)    
     
     # Train the model and compute loss and accuracy
-    trainIters(config = config,loader=trainLoader,total_batches=total_batches,data = data,encoder = encoder,decoder = decoder)
+    trainIters(config = config,loader=trainLoader,total_batches=total_batches,data = data,encoder = encoder,decoder = decoder,wandbapply = add_wandb)
     
 # Returns loader for train data and total number of batches in training data
 def getTrainLoader(data,batch_size):
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     }
 
     startime = time.time()
-    trainForConfigs(config)
+    trainForConfigs(config,add_wandb=False)
     endTime = (time.time() - startime)
     print(endTime / 60)
 

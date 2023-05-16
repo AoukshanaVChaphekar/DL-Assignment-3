@@ -117,11 +117,12 @@ def trainforOneEpoch(config,data,source_tensor, target_tensor, encoder, decoder,
             5.plot_every - plots every given milliseconds
             6.learning rate
 '''
-def trainIters(config,total_batches,loader,data,encoder,decoder):
-    
-    # wandb.init(
-    #     project=config["wandb_project"]
-    # )
+def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
+
+    if wandbapply:
+        wandb.init(
+            project=config["wandb_project"]
+        )
 
     epochs = config["epoch"]
     learning_rate = config["learning_rate"]
@@ -181,8 +182,8 @@ def trainIters(config,total_batches,loader,data,encoder,decoder):
         print("epoch:{epoch}, train loss:{train_l}, validation loss:{validation_l}, validation accuracy:{validation_ac}".\
                   format(epoch = epoch + 1,train_l = train_loss,validation_l = validation_loss,validation_ac = validation_accuracy))
 
-       
-        # wandb.log({'train loss':train_loss,'validation loss':validation_loss, 'validation accuracy':validation_accuracy})
+        if wandbapply:
+            wandb.log({'train loss':train_loss,'validation loss':validation_loss, 'validation accuracy':validation_accuracy})
 
     # test_loader = data.getTestLoader()
         

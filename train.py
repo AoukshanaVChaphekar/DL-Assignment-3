@@ -83,7 +83,7 @@ def train():
     
     wandb.run.name = "cell_type_" + str(wandb.config.cell_type) +  "_numLayers_"+ str(wandb.config.num_layers) 
     
-    trainForConfigs(CONFIG)
+    trainForConfigs(CONFIG,add_wandb=True)
 
 sweep_id = wandb.sweep(sweep = sweep_config,project= CONFIG["wandb_project"])  
 wandb.agent(sweep_id=sweep_id,function = train,count=50,project = CONFIG["wandb_project"])  
