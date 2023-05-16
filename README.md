@@ -38,3 +38,14 @@ python main.py
 | embedding_size | 64, 128, 256, 512 |
 | batch_size | 32, 64, 128 |
 | bidirectional | True, False |
+
+
+## Files
+
+- dataPreprocessing.py - creates train,test and validation data and preprocesses it
+- main.py - execute this file to run the code without attention 
+- main_attention.py - execute this file to run the code with attention
+- model.py - Contains the Encoder,Decoder and DecoderAttention classes : creating model architecture
+- train.py - run this file to run the code in wandb without attention
+- train_attention.py - run this file to run the code in wandb without attention
+- trainModel.py - contains the code to train the model and computes loss and accuracy
