@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from dataPreprocessing import DataProcessing
 from model import Encoder
 from model import Decoder
+from model import DecoderAttention
 from trainModel import trainIters
 from torch.utils.data import DataLoader
 import time
@@ -26,7 +27,7 @@ def trainForConfigs(config,add_wandb):
     encoder = Encoder(data.num_encoder_tokens,config).to(device)
     
     # Create encoder with output size = number of characters in target langauge and specified embedding size
-    decoder = Decoder(data.num_decoder_tokens,config,data).to(device)
+    decoder = DecoderAttention(data.num_decoder_tokens,config,data).to(device)
     
 
     trainLoader,total_batches = getTrainLoader(data,batch_size)    
@@ -63,7 +64,7 @@ if __name__ == "__main__":
         "embedding_size" : 256,
         "bidirectional" : False,
         "batch_size" : 128,
-        "attention" : False,
+        "attention" : True,
         "epoch" : 10,
         "device" : device,
         "learning_rate" : 0.001

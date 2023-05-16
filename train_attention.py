@@ -16,7 +16,7 @@ CONFIG = {
     "embedding_size" : 256,
     "bidirectional" : False,
     "batch_size" : 32,
-    "attention" : False,
+    "attention" : True,
     "epoch" : 5,
     "device" : device,
     "learning_rate" : 0.001
@@ -73,10 +73,11 @@ def train():
     CONFIG["numLayers"] = wandb.config.num_layers
     CONFIG["drop_out"] = wandb.config.drop_out
     CONFIG["embedding_size"] = wandb.config.embedding_size
+    CONFIG["bidirectional"] = False
     CONFIG["batch_size"] = wandb.config.batch_size
     CONFIG["epoch"] = wandb.config.epoch
     CONFIG["learning_rate"] = wandb.config.learning_rate
-    CONFIG["attention"] = False
+    CONFIG["attention"] = True
     CONFIG["device"] = device
 
     

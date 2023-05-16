@@ -317,7 +317,7 @@ def evaluateOneBatch(config,data, sourceTensorBatch, targetTensorBatch, encoder,
             if predicted == actual:
                 correctWords += 1
         
-        writeToCSV(predicted_list,actual_list)
+        # writeToCSV(predicted_list,actual_list)
         
         if attention:
             return loss.item() / len(sourceTensorBatch), correctWords,decoderAttentions
