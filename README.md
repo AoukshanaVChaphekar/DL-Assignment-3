@@ -26,8 +26,45 @@ python main_attention.py
 python main.py
 ``` 
 
+## Using argparse
+| Command Line Argument | Usage |
+| --- | --- |
+| --wandb_project / -wp  | Name of wandb project |
+| --wandb_entity / -we  | Name of wandb entity |
+| --hidden_size / -hs  | Hidden size of dense layer |
+| --cell_type / -c  | Cell type to use - lstm,gru,rnn |
+| --numLayers / -nl  | Number of encoder/decoder layers |
+| --drop_out / -dp  | Dropout |
+| --embedding_size / -es  | Embedding size |
+| --batch_size / -bs  | Batch size |
+| --epoch / -e  | Epochs |
+| --learning_rate / -lr | Learning Rate |
 
-| Hyperparamter | Values/Usage |
+
+- With Attention
+```python
+python main_attention.py --wandb_project --wandb_entity --hidden_size --cell_type --numLayers --drop_out --embedding_size --batch_size --epoch --learning_rate
+```
+
+OR
+
+```python
+python main_attention.py -wp -we -hs -c -nl -dp -es -bs -e -lr
+```
+
+
+- Without Attention
+```python
+python main.py --wandb_project --wandb_entity --hidden_size --cell_type --numLayers --drop_out --embedding_size --batch_size --epoch --learning_rate
+```
+
+OR
+
+```python
+python main.py -wp -we -hs -c -nl -dp -es -bs -e -lr
+```
+
+| Hyperparameter | Values/Usage |
 | --- | --- |
 | epoch | 5, 10 |
 | hidden_size | 128, 256, 512 |
@@ -59,7 +96,7 @@ python main.py
 
 ####  Validation Accuracy - 35.132 %
 ####  Test Accuracy - 33.569 %
-| Hyperparamter | Values/Usage |
+| Hyperparameter | Values/Usage |
 | --- | --- |
 | epoch | 10 |
 | hidden_size | 512 |
@@ -75,7 +112,7 @@ python main.py
 
 ####  Validation Accuracy - 35.474 %
 #### Test Accuracy - 31.86 %
-| Hyperparamter | Values/Usage |
+| Hyperparameter | Values/Usage |
 | --- | --- |
 | epoch | 10 |
 | hidden_size | 512 |
