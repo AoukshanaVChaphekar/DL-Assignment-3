@@ -50,6 +50,9 @@ python main.py
 - train_attention.py - run this file to run the code in wandb without attention
 - trainModel.py - contains the code to train the model and computes loss and accuracy
 
+## Folders
+- predictions_vanilla - contains a csv file containing the input words, predictions made by the model (without attention) and target words
+- predictions_attention - contains a csv file containing the input words, predictions made by the model (with attention) and target words
 ## Results
 
 ### With Attention
