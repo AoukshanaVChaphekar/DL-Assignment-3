@@ -2,6 +2,7 @@
 
 The **wandb report** can be found in the following link:
 
+https://api.wandb.ai/links/cs22m019/x865whmo
 
 ## Usage
 ### To run code with wandb
