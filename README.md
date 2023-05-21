@@ -57,8 +57,8 @@ python main.py
 
 ### With Attention
 
-####  Validation Accuracy - 35.132
-
+####  Validation Accuracy - 35.132 %
+####  Test Accuracy - 33.569 %
 | Hyperparamter | Values/Usage |
 | --- | --- |
 | epoch | 10 |
@@ -73,8 +73,8 @@ python main.py
 
 ### Without Attention
 
-####  Validation Accuracy - 35.474
-
+####  Validation Accuracy - 35.474 %
+#### Test Accuracy - 31.86 %
 | Hyperparamter | Values/Usage |
 | --- | --- |
 | epoch | 10 |
