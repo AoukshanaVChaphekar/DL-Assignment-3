@@ -9,6 +9,9 @@ from trainModel import trainIters
 from torch.utils.data import DataLoader
 import time
 
+import argparse
+
+
 '''
 Run this file if you want to run the code without WANDB
 '''
@@ -44,6 +47,72 @@ def getTrainLoader(data,batch_size):
         total_batches = len(training_pairs) // batch_size
    
         return trainLoader,total_batches
+
+def update_parameters(config):
+
+        parser = argparse.ArgumentParser(description='DL Assignment 3 Parser')
+
+        parser.add_argument('-wp', '--wandb_project',
+                            type=str, metavar='', help='wandb project')
+        
+        parser.add_argument('-we', '--wandb_entity', type=str,
+                            metavar='', help='wandb entity')
+        
+        parser.add_argument('-hs', '--hidden_size', type=int,
+                            metavar='', help='hidden_size')
+        
+        parser.add_argument('-c', '--cell_type', type=str,
+                            metavar='', help='cell_type')
+        
+        parser.add_argument('-nl', '--numLayers', type=int,
+                            metavar='', help='numLayers')
+        
+        parser.add_argument('-dp', '--drop_out', type=float,
+                            metavar='', help='drop_out')
+        
+        parser.add_argument('-es', '--embedding_size',
+                            type=int, metavar='', help='embedding_size')
+        
+        parser.add_argument('-bs', '--batch_size',
+                            type=int, metavar='', help='batch_size')
+        
+        parser.add_argument('-e', '--epoch',
+                            type=int, metavar='', help='epoch')
+        
+        parser.add_argument('-lr', '--learning_rate',
+                            type=float, metavar='', help='learning rate')
+        
+        args = parser.parse_args()
+
+        if (args.wandb_project != None):
+            config["wandb_project"] = args.wandb_project
+        
+        if (args.wandb_entity != None):
+            config["wandb_entity"] = args.wandb_entity
+        
+        if (args.hidden_size != None):
+            config["hidden_size"] = args.hidden_size
+        
+        if (args.cell_type != None):
+            config["cell_type"] = args.cell_type
+        
+        if (args.numLayers != None):
+            config["numLayers"] = args.numLayers
+        
+        if (args.drop_out != None):
+            config["drop_out"] = args.drop_out
+        
+        if (args.embedding_size != None):
+            config["embedding_size"] = args.embedding_size
+        
+        if (args.batch_size != None):
+            config["batch_size"] = args.batch_size
+        
+        if (args.epoch != None):
+            config["epoch"] = args.epoch
+        
+        if (args.learning_rate != None):
+            config["learning_rate"] = args.learning_rate
   
 
 if __name__ == "__main__":
@@ -69,8 +138,14 @@ if __name__ == "__main__":
         "learning_rate" : 0.001
     }
 
+    # Update parameters obtained from command line
+    update_parameters(config)
+    
     startime = time.time()
     trainForConfigs(config,add_wandb=False)
     endTime = (time.time() - startime)
     print(endTime / 60)
 
+        
+
+       

@@ -1,6 +1,6 @@
 import wandb
 import torch
-from main import trainForConfigs
+from main import trainForConfigs,update_parameters
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Default hyperparameters
@@ -78,7 +78,7 @@ def train():
     CONFIG["learning_rate"] = wandb.config.learning_rate
     CONFIG["attention"] = False
     CONFIG["device"] = device
-    
+
     wandb.run.name = "cell_type_" + "gru" +  "_numLayers_"+ str(wandb.config.num_layers) 
     
     trainForConfigs(CONFIG,add_wandb=True)

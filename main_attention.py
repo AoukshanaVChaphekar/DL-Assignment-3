@@ -9,6 +9,8 @@ from model import DecoderAttention
 from trainModel import trainIters
 from torch.utils.data import DataLoader
 import time
+import argparse
+from main import update_parameters
 
 
 '''
@@ -72,6 +74,9 @@ if __name__ == "__main__":
         "learning_rate" : 0.001
     }
 
+    # Update parameters obtained from command line
+    update_parameters(config)
+   
     startime = time.time()
     trainForConfigs(config,add_wandb=False)
     endTime = (time.time() - startime)
