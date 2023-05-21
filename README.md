@@ -1,8 +1,8 @@
 # DL-Assignment-3
 
 The **wandb report** can be found in the following link:
-https://api.wandb.ai/links/cs22m019/x865whmo
 
+https://wandb.ai/cs22m019/DL%20Assignment%203-1/reports/CS6910-Assignment-3-Use-recurrent-neural-networks-to-build-a-transliteration-system--Vmlldzo0NDAyOTM1
 ## Usage
 ### To run code with wandb
 
