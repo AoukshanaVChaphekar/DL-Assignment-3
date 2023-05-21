@@ -6,22 +6,22 @@ The **wandb report** can be found in the following link:
 ## Usage
 ### To run code with wandb
 
-- With Attention
+- **With Attention**
 ```python
 python train_attention.py
 ```
-- Without Attention
+- **Without Attention**
 ```python
 python train.py
 ``` 
 
 ### To run code without wandb
 
-- With Attention
+- **With Attention**
 ```python
 python main_attention.py
 ```
-- Without Attention
+- **Without Attention**
 ```python
 python main.py
 ``` 
@@ -41,7 +41,7 @@ python main.py
 | --learning_rate / -lr | Learning Rate |
 
 
-- With Attention
+- **With Attention**
 ```python
 python main_attention.py --wandb_project --wandb_entity --hidden_size --cell_type --numLayers --drop_out --embedding_size --batch_size --epoch --learning_rate
 ```
@@ -53,7 +53,7 @@ python main_attention.py -wp -we -hs -c -nl -dp -es -bs -e -lr
 ```
 
 
-- Without Attention
+- **Without Attention**
 ```python
 python main.py --wandb_project --wandb_entity --hidden_size --cell_type --numLayers --drop_out --embedding_size --batch_size --epoch --learning_rate
 ```
