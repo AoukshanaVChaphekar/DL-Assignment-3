@@ -166,7 +166,8 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
                 data=data,
                 encoder=encoder,
                 decoder=decoder,
-                training_completed=True
+                training_completed=True,
+                test = False
             )
         else:
             # Compute validation accuracy
@@ -175,7 +176,8 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
                 data=data,
                 encoder=encoder,
                 decoder=decoder,
-                training_completed=False
+                training_completed=False,
+                test = False
             )
         train_loss = epoch_loss / total_batches
        
@@ -187,18 +189,19 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
     '''
     Code for using test data
     '''
-    # print("epochs completed")
-    # test_loader = data.getTestLoader()
+    print("epochs completed")
+    test_loader = data.getTestLoader()
         
-    # config["batch_size"] = 1
-    # test_loss ,test_accuracy = evaluate(config=config,
-    #          loader=test_loader,
-    #          data=data,
-    #          encoder=encoder,
-    #          decoder=decoder,
-    #          training_completed=False
-    #     )
-    # print("Test Accuracy:",test_accuracy)
+    config["batch_size"] = 1
+    test_loss ,test_accuracy = evaluate(config=config,
+             loader=test_loader,
+             data=data,
+             encoder=encoder,
+             decoder=decoder,
+             training_completed=False,
+             test = True
+        )
+    print("Test Accuracy:",test_accuracy)
     # wandb.init(
     #         project=config["wandb_project"]
     #     )
@@ -206,7 +209,7 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
 
     
 # Compute accuracy 
-def evaluate(config,data, loader, encoder, decoder,training_completed) :
+def evaluate(config,data, loader, encoder, decoder,training_completed,test) :
 
         loss = 0
         totalCorrectWords = 0
@@ -220,7 +223,7 @@ def evaluate(config,data, loader, encoder, decoder,training_completed) :
         criterion = nn.NLLLoss()
 
         for sourceTensor, targetTensor in loader :
-            batchLoss, correctWords,attentions = evaluateOneBatch(config,data,sourceTensor, targetTensor, encoder, decoder, criterion)
+            batchLoss, correctWords,attentions = evaluateOneBatch(config,data,sourceTensor, targetTensor, encoder, decoder, criterion,test)
 
             loss += batchLoss
             totalCorrectWords += correctWords
@@ -248,7 +251,7 @@ def plotHeatMap(heatMap):
     plt.colorbar()
     plt.show()
 
-def evaluateOneBatch(config,data, sourceTensorBatch, targetTensorBatch, encoder, decoder, criterion) :
+def evaluateOneBatch(config,data, sourceTensorBatch, targetTensorBatch, encoder, decoder, criterion,test) :
 
         loss = 0
         correctWords = 0
@@ -337,7 +340,8 @@ def evaluateOneBatch(config,data, sourceTensorBatch, targetTensorBatch, encoder,
             if predicted == actual:
                 correctWords += 1
         
-        writeToCSV(predicted_list,target_list,input_list)
+        if test:
+            writeToCSV(predicted_list,target_list,input_list)
                 
         if attention:
             return loss.item() / len(sourceTensorBatch), correctWords,decoderAttentions
@@ -352,10 +356,10 @@ def writeToCSV(predicted_list,target_list,input_list):
     for i in range(len(predicted_list)):
         rows.append([input_list[i],target_list[i],predicted_list[i]])
     
-    filename = "predictions_vanilla_attention.csv"
+    filename = "predictions_attention.csv"
   
     # writing to csv file 
-    with open(filename, 'w',encoding="utf-8") as csvfile: 
+    with open(filename, 'a',encoding="utf-8") as csvfile: 
         
         # creating a csv writer object 
         csvwriter = csv.writer(csvfile) 
