@@ -9,7 +9,6 @@ from trainModel import trainIters
 from torch.utils.data import DataLoader
 import time
 
-
 '''
 Run this file if you want to run the code without WANDB
 '''
@@ -52,17 +51,18 @@ if __name__ == "__main__":
     # Set to device to cuda if available
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Hyperparameters
     config = {
+        "wandb_project": "DL Assignment 3-1",
+        "wandb_entity": "cs22m019",
         "hidden_size" : 512,
         "source_lang" : 'en',
         "target_lang" : 'hin',
         "cell_type"   : "lstm",
         "numLayers" : 3,
-        "drop_out"    : 0, 
+        "drop_out"    : 0.3, 
         "embedding_size" : 256,
         "bidirectional" : False,
-        "batch_size" : 128,
+        "batch_size" : 64,
         "attention" : False,
         "epoch" : 10,
         "device" : device,

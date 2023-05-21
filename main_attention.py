@@ -55,6 +55,8 @@ if __name__ == "__main__":
 
     # Hyperparameters
     config = {
+        "wandb_project": "DL Assignment 3-1",
+        "wandb_entity": "cs22m019",
         "hidden_size" : 512,
         "source_lang" : 'en',
         "target_lang" : 'hin',

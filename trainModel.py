@@ -136,7 +136,6 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
     for epoch in range(epochs):
         epoch_loss = 0
         batch_no = 1
-
         # Train for each batch
         for batchx,batchy in loader:
                
@@ -154,7 +153,8 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
             
             epoch_loss += batch_loss
             batch_no+=1
-        
+            # if batch_no % 10 == 0:
+            print("epoch:" + str(epoch + 1) + " / " + str(epochs) + "    batch:" + str(batch_no) + " / " + str(total_batches))
         
         val_loader = data.getValLoader()
         
@@ -184,7 +184,10 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
 
         if wandbapply:
             wandb.log({'train loss':train_loss,'validation loss':validation_loss, 'validation accuracy':validation_accuracy})
-
+    '''
+    Code for using test data
+    '''
+    # print("epochs completed")
     # test_loader = data.getTestLoader()
         
     # config["batch_size"] = 1
@@ -193,9 +196,15 @@ def trainIters(config,total_batches,loader,data,encoder,decoder,wandbapply):
     #          data=data,
     #          encoder=encoder,
     #          decoder=decoder,
+    #          training_completed=False
     #     )
-    # print("Test accuracy:",test_accuracy)   
+    # print("Test Accuracy:",test_accuracy)
+    # wandb.init(
+    #         project=config["wandb_project"]
+    #     )
+    # wandb.log({'test loss':test_loss,'test accuracy':test_accuracy})
 
+    
 # Compute accuracy 
 def evaluate(config,data, loader, encoder, decoder,training_completed) :
 
@@ -229,7 +238,7 @@ def evaluate(config,data, loader, encoder, decoder,training_completed) :
                             heatMap[i][k] = volume[i][point][k]
 
 
-                    plotHeatMap(heatMap)
+                    # plotHeatMap(heatMap)
 
         return (loss / totalBatches), (totalCorrectWords / totalWords) * 100
 
@@ -302,45 +311,58 @@ def evaluateOneBatch(config,data, sourceTensorBatch, targetTensorBatch, encoder,
         predictedBatchOutput = predictedBatchOutput.transpose(0,1)
 
         ignore = [data.SOW_char2int, data.EOW_char2int,data.PAD_char2int]
-
+        
         predicted_list = []
-        actual_list = []
-
+        target_list = []
+        input_list = []
+        
         for di in range(predictedBatchOutput.size()[0]):
 
             predicted = [letter.item() for letter in predictedBatchOutput[di] if letter not in ignore]
             actual = [letter.item() for letter in targetTensorBatch[di] if letter not in ignore]
-            
-            predicted_list.append(predicted)
-            actual_list.append(actual)
-            
+            inputText = [letter.item() for letter in sourceTensorBatch[di] if letter not in ignore]
+
+            predictedChars = [data.target_int2char[char] for char in predicted]
+            actualChars = [data.target_int2char[char] for char in actual]
+            inputChars = [data.source_int2char[char] for char in inputText]
+
+            predictedWord = "".join([str(i) for i in predictedChars])
+            actualWord = "".join([str(i) for i in actualChars])
+            inputWord = "".join([str(i) for i in inputChars])
+
+            predicted_list.append(predictedWord)
+            target_list.append(actualWord)
+            input_list.append(inputWord)
+
             if predicted == actual:
                 correctWords += 1
         
-        # writeToCSV(predicted_list,actual_list)
-        
+        writeToCSV(predicted_list,target_list,input_list)
+                
         if attention:
             return loss.item() / len(sourceTensorBatch), correctWords,decoderAttentions
+        
         return loss.item() / len(sourceTensorBatch), correctWords,None
 
-def writeToCSV(predicted_list,actual_list):
+def writeToCSV(predicted_list,target_list,input_list):
 
-    fields = ["Actual","Predicted"]
+    fields = ["Input Word","Target Word","Predicted Word"]
 
     rows = []
     for i in range(len(predicted_list)):
-        rows.append([actual_list[i],predicted_list[i]])
+        rows.append([input_list[i],target_list[i],predicted_list[i]])
     
-    filename = "predcitions_vanilla.csv"
-
+    filename = "predictions_vanilla_attention.csv"
+  
     # writing to csv file 
-    with open(filename, 'w') as csvfile: 
+    with open(filename, 'w',encoding="utf-8") as csvfile: 
+        
         # creating a csv writer object 
         csvwriter = csv.writer(csvfile) 
             
         # writing the fields 
         csvwriter.writerow(fields) 
-            
-        # writing the data rows 
-        csvwriter.writerows(rows)
+        for i in range(len(predicted_list)):
+            # writing the data rows 
+            csvwriter.writerow([input_list[i],target_list[i],predicted_list[i]])
 

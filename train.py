@@ -1,6 +1,6 @@
 import wandb
 import torch
-from main_attention import trainForConfigs
+from main import trainForConfigs
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Default hyperparameters
@@ -38,7 +38,7 @@ sweep_config = {
             'values' : [128,256,512]
         },
         'cell_type':{
-            'values' : ["lstm","rnn","gru"]
+            'values' : ["gru"]
         },
         'learning_rate':{
             'values' : [1e-2,1e-3]
@@ -69,7 +69,7 @@ def train():
                 config = sweep_config
     )
     CONFIG["hidden_size"] = wandb.config.hidden_size
-    CONFIG["cell_type"] = wandb.config.cell_type
+    CONFIG["cell_type"] = "gru"
     CONFIG["numLayers"] = wandb.config.num_layers
     CONFIG["drop_out"] = wandb.config.drop_out
     CONFIG["embedding_size"] = wandb.config.embedding_size
@@ -78,11 +78,10 @@ def train():
     CONFIG["learning_rate"] = wandb.config.learning_rate
     CONFIG["attention"] = False
     CONFIG["device"] = device
-
     
-    wandb.run.name = "cell_type_" + str(wandb.config.cell_type) +  "_numLayers_"+ str(wandb.config.num_layers) 
+    wandb.run.name = "cell_type_" + "gru" +  "_numLayers_"+ str(wandb.config.num_layers) 
     
     trainForConfigs(CONFIG,add_wandb=True)
 
 sweep_id = wandb.sweep(sweep = sweep_config,project= CONFIG["wandb_project"])  
-wandb.agent(sweep_id=sweep_id,function = train,count=50,project = CONFIG["wandb_project"])  
+wandb.agent(sweep_id=sweep_id,function = train,count=10,project = CONFIG["wandb_project"])  
